@@ -1,4 +1,4 @@
-interface Color {
+export interface Color {
 	name: String;
 	rgb: RGB;
 }
