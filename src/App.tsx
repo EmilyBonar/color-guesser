@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { RgbColorPicker } from "react-colorful";
-//import "react-colorful/dist/index.css";
+import colors from "./colors";
 import "./App.css";
 
 function App() {
 	const [color, setColor] = useState({ r: 255, g: 255, b: 255 });
-	console.log(color);
+	const [randomColor] = useState(
+		colors[Math.floor(Math.random() * colors.length)],
+	);
+	console.log(randomColor);
 	return (
 		<div
 			className="flex flex-col items-center w-screen h-screen"
