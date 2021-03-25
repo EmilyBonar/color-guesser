@@ -22,7 +22,7 @@ function App() {
 			<div className="w-full text-center bg-gray-800 bg-opacity-20 h-1/3">
 				<p className="m-4 text-5xl">{targetColor.name}</p>
 				<button
-					className="p-2 bg-gray-500 rounded shadow-inner"
+					className="p-2 bg-gray-500 rounded shadow"
 					style={{ color: `rgb(${color.r},${color.g},${color.b})` }}
 					onClick={() => setShowScore(true)}
 				>
@@ -34,8 +34,8 @@ function App() {
 				<button
 					className={`${
 						showScore ? "visible" : "hidden"
-					} p-2 bg-gray-500 rounded shadow-inner`}
-					onClick={() => window.location.reload(false)}
+					} p-2 bg-gray-500 rounded shadow`}
+					onClick={() => window.location.reload()}
 				>
 					Play Again?
 				</button>
@@ -45,13 +45,12 @@ function App() {
 }
 
 function grade(inputColor: RgbColor, targetColor: Color) {
+	let sqrDiff =
+		(inputColor.r - targetColor.rgb.r) ** 2 +
+		(inputColor.g - targetColor.rgb.g) ** 2 +
+		(inputColor.b - targetColor.rgb.b) ** 2;
 	return String(
-		100 -
-			(((inputColor.r - targetColor.rgb.r) ** 2 +
-				(inputColor.g - targetColor.rgb.g) ** 2 +
-				(inputColor.b - targetColor.rgb.b) ** 2) /
-				(3 * 255 ** 2)) *
-				100,
+		100 - (Math.log(sqrDiff ? sqrDiff : 1) / Math.log(3 * 255 ** 2)) * 100,
 	);
 }
 
