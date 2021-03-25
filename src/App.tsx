@@ -8,6 +8,7 @@ function App() {
 	const [targetColor] = useState(
 		colors[Math.floor(Math.random() * colors.length)],
 	);
+	const [showScore, setShowScore] = useState(false);
 	return (
 		<div
 			className="flex flex-col items-center w-screen h-screen"
@@ -16,11 +17,29 @@ function App() {
 			<RgbColorPicker
 				color={color}
 				onChange={setColor}
-				className="w-96 h-96 sm:w-2/3 sm:h-2/3"
+				className="m-4 w-96 h-96 sm:w-2/3 sm:h-2/3"
 			/>
-			<p className="m-4 text-5xl">{targetColor.name}</p>
-			<button className="p-2 bg-white rounded">Guess</button>
-			<p className="">{grade(color, targetColor).slice(0, 5)}</p>
+			<div className="w-full text-center bg-gray-800 bg-opacity-20 h-1/3">
+				<p className="m-4 text-5xl">{targetColor.name}</p>
+				<button
+					className="p-2 bg-gray-500 rounded shadow-inner"
+					style={{ color: `rgb(${color.r},${color.g},${color.b})` }}
+					onClick={() => setShowScore(true)}
+				>
+					Guess
+				</button>
+				<p className={`${showScore ? "visible" : "hidden"} text-6xl m-2`}>
+					{grade(color, targetColor).slice(0, 5)}%
+				</p>
+				<button
+					className={`${
+						showScore ? "visible" : "hidden"
+					} p-2 bg-gray-500 rounded shadow-inner`}
+					onClick={() => window.location.reload(false)}
+				>
+					Play Again?
+				</button>
+			</div>
 		</div>
 	);
 }
