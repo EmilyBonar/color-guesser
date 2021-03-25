@@ -50,7 +50,7 @@ function grade(inputColor: RgbColor, targetColor: Color) {
 		(inputColor.g - targetColor.rgb.g) ** 2 +
 		(inputColor.b - targetColor.rgb.b) ** 2;
 	return String(
-		100 - (Math.log(sqrDiff ? sqrDiff : 1) / Math.log(3 * 255 ** 2)) * 100,
+		100 - (Math.sqrt(sqrDiff ? sqrDiff : 1) / Math.sqrt(3 * 255 ** 2)) * 100,
 	);
 }
 
