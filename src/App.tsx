@@ -14,16 +14,20 @@ function App() {
 			className="flex flex-col items-center w-screen h-screen"
 			style={{ backgroundColor: `rgb(${color.r},${color.g},${color.b})` }}
 		>
+			<header className="flex w-full bg-black bg-opacity-80">
+				<h1 className="p-2 text-4xl font-bold text-transparent from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text">
+					ColorGuesser
+				</h1>
+			</header>
 			<RgbColorPicker
 				color={color}
 				onChange={setColor}
-				className="m-4 w-96 h-96 sm:w-2/3 sm:h-2/3"
+				className="m-4 w-96 h-96 sm:w-3/4 sm:h-2/3"
 			/>
-			<div className="w-full text-center bg-gray-800 bg-opacity-20 h-1/3">
+			<div className="w-full text-center bg-gray-800 bg-opacity-20 h-1/4">
 				<p className="m-4 text-5xl">{targetColor.name}</p>
 				<button
-					className="p-2 bg-gray-500 rounded shadow"
-					style={{ color: `rgb(${color.r},${color.g},${color.b})` }}
+					className="p-2 bg-gray-300 rounded shadow"
 					onClick={() =>
 						showScore ? window.location.reload() : setShowScore(true)
 					}
