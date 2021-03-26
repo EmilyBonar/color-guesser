@@ -34,7 +34,7 @@ function App() {
 			<div className="flex h-full">
 				<div
 					className={`flex flex-col items-center w-full h-full ${
-						sidebarOpen ? "hidden sm:visible" : ""
+						sidebarOpen ? "hidden sm:flex" : ""
 					}`}
 				>
 					<RgbColorPicker
@@ -43,7 +43,7 @@ function App() {
 						className="w-11/12 h-full max-w-5xl m-4 "
 					/>
 					<div
-						className={`w-full text-center bg-gray-800 h-full max-h-80 bg-opacity-20 ${
+						className={`w-full text-center bg-gray-800 h-full max-h-72 bg-opacity-20 ${
 							color.r + color.g + color.b < 255 ? "text-white" : "text-black"
 						}`}
 					>
