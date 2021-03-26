@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RgbColor, RgbColorPicker } from "react-colorful";
 import colors, { Color } from "./colors";
-import MenuIcon from "./menu.svg";
 import "./App.css";
 
 function App() {
@@ -9,8 +8,23 @@ function App() {
 	const [targetColor] = useState(
 		colors[Math.floor(Math.random() * colors.length)],
 	);
-	const [showScore, setShowScore] = useState(false);
+	const [submitScore, setsubmitScore] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [scores, setScores] = useState<string[]>([]);
+
+	useEffect(() => {
+		let storedScores = localStorage.getItem("Scores");
+		if (storedScores != null) {
+			setScores(storedScores.split(","));
+		}
+	}, []);
+	useEffect(() => {
+		if (submitScore) {
+			let newScores = [...scores, grade(color, targetColor)];
+			setScores(newScores);
+			localStorage.setItem("Scores", newScores.join(","));
+		}
+	}, [submitScore]);
 	return (
 		<div
 			className="w-screen h-screen overflow-hidden "
@@ -33,21 +47,21 @@ function App() {
 						<button
 							className="p-2 text-2xl text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
 							onClick={() =>
-								showScore ? window.location.reload() : setShowScore(true)
+								submitScore ? window.location.reload() : setsubmitScore(true)
 							}
 						>
-							{showScore ? "Play Again?" : "Submit Guess"}
+							{submitScore ? "Play Again?" : "Submit Guess"}
 						</button>
 						<p
 							className={`${
-								showScore ? "visible" : "hidden"
+								submitScore ? "visible" : "hidden"
 							} text-4xl sm:text-6xl m-2`}
 						>
-							{grade(color, targetColor).slice(0, 5)}%
+							{grade(color, targetColor)}%
 						</p>
 					</div>
 				</div>
-				<ScoreSidebar open={sidebarOpen} scores={[]} />
+				<ScoreSidebar open={sidebarOpen} scores={scores} />
 			</div>
 		</div>
 	);
@@ -60,7 +74,7 @@ function grade(inputColor: RgbColor, targetColor: Color) {
 		(inputColor.b - targetColor.rgb.b) ** 2;
 	return String(
 		(1 - Math.floor(Math.sqrt(sqrDiff)) / Math.floor(255 * Math.sqrt(3))) * 100,
-	);
+	).slice(0, 5);
 }
 
 function HeaderBar(props: { buttonOnClick: Function }) {
@@ -87,27 +101,38 @@ function HeaderBar(props: { buttonOnClick: Function }) {
 	);
 }
 
-function ScoreSidebar(props: { open: Boolean; scores: number[] }) {
+function ScoreSidebar(props: { open: boolean; scores: string[] }) {
 	return (
 		<div
 			className={`${
 				props.open ? "w-full" : "hidden"
-			} bg-gray-600 bg-opacity-60 max-w-lg min-w-min flex flex-col`}
+			} bg-gray-600 bg-opacity-60 max-w-lg min-w-min flex flex-col overflow-auto`}
 		>
 			{props.scores.length > 0 ? (
 				<h2 className="m-4 text-4xl text-center">
-					Average Score:{" "}
-					{props.scores.reduce((acc, cur) => acc + cur) / props.scores.length}
+					<span className="font-semibold">Average Score: </span>
+					{String(
+						props.scores.reduce(
+							(acc, cur) =>
+								(typeof acc == "string" ? parseFloat(acc) : acc) +
+								parseFloat(cur),
+							0,
+						) / props.scores.length,
+					).slice(0, 5)}
+					%
 				</h2>
 			) : (
 				<></>
 			)}
-			<h2 className="m-4 text-4xl text-center">Score History</h2>
-			<ul>
+			<h2 className="m-4 text-4xl font-semibold text-center">Score History</h2>
+			<ul className="text-center">
 				{props.scores.length > 0 ? (
-					props.scores.map((score) => <li>{score}%</li>)
+					props.scores
+
+						.map((score) => <li className="text-3xl">{score}%</li>)
+						.reverse()
 				) : (
-					<p className="text-2xl font-semibold text-center">
+					<p className="text-2xl font-semibold ">
 						There aren't any scores here yet
 					</p>
 				)}
