@@ -24,21 +24,15 @@ function App() {
 				<button
 					className="p-2 bg-gray-500 rounded shadow"
 					style={{ color: `rgb(${color.r},${color.g},${color.b})` }}
-					onClick={() => setShowScore(true)}
+					onClick={() =>
+						showScore ? window.location.reload() : setShowScore(true)
+					}
 				>
-					Guess
+					{showScore ? "Play Again?" : "Guess"}
 				</button>
 				<p className={`${showScore ? "visible" : "hidden"} text-6xl m-2`}>
 					{grade(color, targetColor).slice(0, 5)}%
 				</p>
-				<button
-					className={`${
-						showScore ? "visible" : "hidden"
-					} p-2 bg-gray-500 rounded shadow`}
-					onClick={() => window.location.reload()}
-				>
-					Play Again?
-				</button>
 			</div>
 		</div>
 	);
