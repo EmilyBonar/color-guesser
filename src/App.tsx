@@ -24,10 +24,14 @@ function App() {
 				onChange={setColor}
 				className="w-11/12 h-full max-w-5xl m-4 "
 			/>
-			<div className="w-full text-center bg-gray-800 h-1/3 bg-opacity-20">
+			<div
+				className={`w-full text-center bg-gray-800 h-1/3 bg-opacity-20 ${
+					color.r + color.g + color.b < 255 ? "text-white" : "text-black"
+				}`}
+			>
 				<p className="m-4 text-5xl">{targetColor.name}</p>
 				<button
-					className="p-2 bg-gray-300 rounded shadow"
+					className="p-2 text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
 					onClick={() =>
 						showScore ? window.location.reload() : setShowScore(true)
 					}
