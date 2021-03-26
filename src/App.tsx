@@ -11,7 +11,7 @@ function App() {
 	const [showScore, setShowScore] = useState(false);
 	return (
 		<div
-			className="flex flex-col items-center w-screen h-screen"
+			className="flex flex-col items-center w-screen h-screen overflow-hidden"
 			style={{ backgroundColor: `rgb(${color.r},${color.g},${color.b})` }}
 		>
 			<header className="flex w-full bg-black bg-opacity-80">
@@ -22,9 +22,9 @@ function App() {
 			<RgbColorPicker
 				color={color}
 				onChange={setColor}
-				className="m-4 w-96 h-96 sm:w-3/4 sm:h-2/3"
+				className="w-11/12 h-full max-w-5xl m-4 "
 			/>
-			<div className="w-full text-center bg-gray-800 bg-opacity-20 h-1/4">
+			<div className="w-full text-center bg-gray-800 h-1/3 bg-opacity-20">
 				<p className="m-4 text-5xl">{targetColor.name}</p>
 				<button
 					className="p-2 bg-gray-300 rounded shadow"
