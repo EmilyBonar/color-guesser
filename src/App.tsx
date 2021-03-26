@@ -47,7 +47,7 @@ function App() {
 						</p>
 					</div>
 				</div>
-				<ScoreSidebar open={sidebarOpen} />
+				<ScoreSidebar open={sidebarOpen} scores={[]} />
 			</div>
 		</div>
 	);
@@ -87,13 +87,32 @@ function HeaderBar(props: { buttonOnClick: Function }) {
 	);
 }
 
-function ScoreSidebar(props: { open: Boolean }) {
+function ScoreSidebar(props: { open: Boolean; scores: number[] }) {
 	return (
 		<div
 			className={`${
-				props.open ? "w-full sm:w-1/3" : "w-0"
-			} bg-black bg-opacity-60 max-w-xl min-w-min`}
-		></div>
+				props.open ? "w-full" : "hidden"
+			} bg-gray-600 bg-opacity-60 max-w-lg min-w-min flex flex-col`}
+		>
+			{props.scores.length > 0 ? (
+				<h2 className="m-4 text-4xl text-center">
+					Average Score:{" "}
+					{props.scores.reduce((acc, cur) => acc + cur) / props.scores.length}
+				</h2>
+			) : (
+				<></>
+			)}
+			<h2 className="m-4 text-4xl text-center">Score History</h2>
+			<ul>
+				{props.scores.length > 0 ? (
+					props.scores.map((score) => <li>{score}%</li>)
+				) : (
+					<p className="text-2xl font-semibold text-center">
+						There aren't any scores here yet
+					</p>
+				)}
+			</ul>
+		</div>
 	);
 }
 
