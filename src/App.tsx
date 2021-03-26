@@ -10,51 +10,44 @@ function App() {
 		colors[Math.floor(Math.random() * colors.length)],
 	);
 	const [showScore, setShowScore] = useState(false);
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 	return (
 		<div
-			className="flex flex-col items-center w-screen h-screen overflow-hidden"
+			className="w-screen h-screen overflow-hidden "
 			style={{ backgroundColor: `rgb(${color.r},${color.g},${color.b})` }}
 		>
-			<header className="flex justify-between w-full bg-black bg-opacity-80">
-				<h1 className="p-2 text-4xl font-bold text-transparent from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text">
-					ColorGuesser
-				</h1>
-				<svg
-					className="h-14"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					stroke="white"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<line x1="3" y1="12" x2="21" y2="12"></line>
-					<line x1="3" y1="6" x2="21" y2="6"></line>
-					<line x1="3" y1="18" x2="21" y2="18"></line>
-				</svg>
-			</header>
-			<RgbColorPicker
-				color={color}
-				onChange={setColor}
-				className="w-11/12 h-full max-w-5xl m-4 "
-			/>
-			<div
-				className={`w-full text-center bg-gray-800 h-1/3 bg-opacity-20 ${
-					color.r + color.g + color.b < 255 ? "text-white" : "text-black"
-				}`}
-			>
-				<p className="m-4 text-5xl">{targetColor.name}</p>
-				<button
-					className="p-2 text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
-					onClick={() =>
-						showScore ? window.location.reload() : setShowScore(true)
-					}
-				>
-					{showScore ? "Play Again?" : "Submit Guess"}
-				</button>
-				<p className={`${showScore ? "visible" : "hidden"} text-6xl m-2`}>
-					{grade(color, targetColor).slice(0, 5)}%
-				</p>
+			<HeaderBar buttonOnClick={() => setSidebarOpen(!sidebarOpen)} />
+			<div className="flex h-full">
+				<div className="flex flex-col items-center w-full h-full">
+					<RgbColorPicker
+						color={color}
+						onChange={setColor}
+						className="w-11/12 h-full max-w-5xl m-4 "
+					/>
+					<div
+						className={`w-full text-center bg-gray-800 h-full max-h-80 bg-opacity-20 ${
+							color.r + color.g + color.b < 255 ? "text-white" : "text-black"
+						}`}
+					>
+						<p className="m-4 text-4xl sm:text-5xl">{targetColor.name}</p>
+						<button
+							className="p-2 text-2xl text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
+							onClick={() =>
+								showScore ? window.location.reload() : setShowScore(true)
+							}
+						>
+							{showScore ? "Play Again?" : "Submit Guess"}
+						</button>
+						<p
+							className={`${
+								showScore ? "visible" : "hidden"
+							} text-4xl sm:text-6xl m-2`}
+						>
+							{grade(color, targetColor).slice(0, 5)}%
+						</p>
+					</div>
+				</div>
+				<ScoreSidebar open={sidebarOpen} />
 			</div>
 		</div>
 	);
@@ -67,6 +60,40 @@ function grade(inputColor: RgbColor, targetColor: Color) {
 		(inputColor.b - targetColor.rgb.b) ** 2;
 	return String(
 		(1 - Math.floor(Math.sqrt(sqrDiff)) / Math.floor(255 * Math.sqrt(3))) * 100,
+	);
+}
+
+function HeaderBar(props: { buttonOnClick: Function }) {
+	return (
+		<header className="flex justify-between w-full bg-black bg-opacity-80">
+			<h1 className="p-2 text-4xl font-bold text-transparent from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text">
+				ColorGuesser
+			</h1>
+			<svg
+				onClick={() => props.buttonOnClick()}
+				className="h-14"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				stroke="white"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<line x1="3" y1="12" x2="21" y2="12"></line>
+				<line x1="3" y1="6" x2="21" y2="6"></line>
+				<line x1="3" y1="18" x2="21" y2="18"></line>
+			</svg>
+		</header>
+	);
+}
+
+function ScoreSidebar(props: { open: Boolean }) {
+	return (
+		<div
+			className={`${
+				props.open ? "w-full sm:w-1/3" : "w-0"
+			} bg-black bg-opacity-60 max-w-xl min-w-min`}
+		></div>
 	);
 }
 
