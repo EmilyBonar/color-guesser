@@ -32,7 +32,11 @@ function App() {
 		>
 			<HeaderBar buttonOnClick={() => setSidebarOpen(!sidebarOpen)} />
 			<div className="flex h-full">
-				<div className="flex flex-col items-center w-full h-full">
+				<div
+					className={`flex flex-col items-center w-full h-full ${
+						sidebarOpen ? "hidden sm:visible" : ""
+					}`}
+				>
 					<RgbColorPicker
 						color={color}
 						onChange={setColor}
