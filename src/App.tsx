@@ -32,7 +32,7 @@ function App() {
 		>
 			<HeaderBar buttonOnClick={() => setSidebarOpen(!sidebarOpen)} />
 			<div className="flex h-full">
-				<div className={`flex flex-col items-center w-full h-full z-0`}>
+				<div className={`flex flex-col items-center w-full h-full`}>
 					<RgbColorPicker
 						color={color}
 						onChange={setColor}
@@ -91,7 +91,7 @@ function ScoreSidebar(props: { open: boolean; scores: string[] }) {
 		<div
 			className={`${
 				props.open ? "scale-x-100" : "scale-x-0"
-			} bg-white bg-opacity-60 max-w-lg min-w-min flex flex-col overflow-y-scroll absolute transform right-0 transition h-5/6 sm:h-full origin-right z-10`}
+			} bg-white bg-opacity-60 max-w-lg min-w-min flex flex-col overflow-y-scroll absolute transform right-0 h-5/6 transition origin-right`}
 		>
 			{props.scores.length > 0 ? (
 				<h2 className="m-4 text-4xl text-center">
