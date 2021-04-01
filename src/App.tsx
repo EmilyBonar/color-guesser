@@ -32,11 +32,13 @@ function App() {
 		>
 			<HeaderBar buttonOnClick={() => setSidebarOpen(!sidebarOpen)} />
 			<div className="flex h-full">
-				<div className={`flex flex-col items-center w-full h-full`}>
+				<div
+					className={`flex flex-col items-center w-full h-full max-h-screen`}
+				>
 					<RgbColorPicker
 						color={color}
 						onChange={setColor}
-						className="w-11/12 h-full max-w-5xl m-4 "
+						className="w-11/12 h-full max-w-5xl max-h-full m-4 "
 					/>
 					<BottomBar
 						inputColor={color}
