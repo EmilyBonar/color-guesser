@@ -118,7 +118,7 @@ let colors: Color[] = [
 	{ name: "Antique White", rgb: { r: 250, g: 235, b: 215 } },
 	{ name: "Linen", rgb: { r: 250, g: 240, b: 230 } },
 	{ name: "Light Golden Rod Yellow", rgb: { r: 250, g: 250, b: 210 } },
-	{ name: "Old Lace", rgb: { r: 2253, g: 245, b: 230 } },
+	{ name: "Old Lace", rgb: { r: 253, g: 245, b: 230 } },
 	{ name: "Red", rgb: { r: 255, g: 0, b: 0 } },
 	{ name: "Magenta", rgb: { r: 255, g: 0, b: 255 } },
 	{ name: "Deep Pink", rgb: { r: 255, g: 20, b: 147 } },
