@@ -8,7 +8,7 @@ function App() {
 	const [targetColor] = useState(
 		colors[Math.floor(Math.random() * colors.length)],
 	);
-	const [submitScore, setsubmitScore] = useState(false);
+	const [submitScore, setSubmitScore] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [scores, setScores] = useState<string[]>([]);
 
@@ -42,28 +42,12 @@ function App() {
 						onChange={setColor}
 						className="w-11/12 h-full max-w-5xl m-4 "
 					/>
-					<div
-						className={`w-full text-center bg-gray-800 h-full max-h-72 bg-opacity-20 ${
-							color.r + color.g + color.b < 255 ? "text-white" : "text-black"
-						}`}
-					>
-						<p className="m-4 text-4xl sm:text-5xl">{targetColor.name}</p>
-						<button
-							className="p-2 text-2xl text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
-							onClick={() =>
-								submitScore ? window.location.reload() : setsubmitScore(true)
-							}
-						>
-							{submitScore ? "Play Again?" : "Submit Guess"}
-						</button>
-						<p
-							className={`${
-								submitScore ? "visible" : "hidden"
-							} text-4xl sm:text-6xl m-2`}
-						>
-							{grade(color, targetColor)}%
-						</p>
-					</div>
+					<BottomBar
+						inputColor={color}
+						targetColor={targetColor}
+						submitScore={submitScore}
+						setSubmitScore={setSubmitScore}
+					/>
 				</div>
 				<ScoreSidebar open={sidebarOpen} scores={scores} />
 			</div>
@@ -89,7 +73,7 @@ function HeaderBar(props: { buttonOnClick: Function }) {
 			</h1>
 			<svg
 				onClick={() => props.buttonOnClick()}
-				className="h-14"
+				className="h-10 m-2"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 24 24"
 				stroke="white"
@@ -129,19 +113,70 @@ function ScoreSidebar(props: { open: boolean; scores: string[] }) {
 				<></>
 			)}
 			<h2 className="m-4 text-4xl font-semibold text-center">Score History</h2>
-			<ul className="text-center">
-				{props.scores.length > 0 ? (
-					props.scores
-
-						.map((score) => <li className="text-3xl">{score}%</li>)
-						.reverse()
-				) : (
-					<p className="text-2xl font-semibold ">
-						There aren't any scores here yet
-					</p>
-				)}
-			</ul>
+			<ScoreList scores={props.scores} />
 		</div>
+	);
+}
+
+function ScoreList(props: { scores: string[] }) {
+	return (
+		<ul className="text-center">
+			{props.scores.length > 0 ? (
+				props.scores
+
+					.map((score) => <li className="text-3xl">{score}%</li>)
+					.reverse()
+			) : (
+				<p className="text-2xl font-semibold ">
+					There aren't any scores here yet
+				</p>
+			)}
+		</ul>
+	);
+}
+
+function BottomBar(props: {
+	inputColor: RgbColor;
+	targetColor: Color;
+	submitScore: Boolean;
+	setSubmitScore: Function;
+}) {
+	return (
+		<div
+			className={`w-full text-center bg-gray-800 h-full max-h-72 bg-opacity-20 ${
+				props.inputColor.r + props.inputColor.g + props.inputColor.b < 255
+					? "text-white"
+					: "text-black"
+			}`}
+		>
+			<p className="m-4 text-4xl sm:text-5xl">{props.targetColor.name}</p>
+			<Button
+				submitScore={props.submitScore}
+				setSubmitScore={props.setSubmitScore}
+			/>
+			<p
+				className={`${
+					props.submitScore ? "visible" : "hidden"
+				} text-4xl sm:text-6xl m-2`}
+			>
+				{grade(props.inputColor, props.targetColor)}%
+			</p>
+		</div>
+	);
+}
+
+function Button(props: { submitScore: Boolean; setSubmitScore: Function }) {
+	return (
+		<button
+			className="p-2 text-2xl text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
+			onClick={() =>
+				props.submitScore
+					? window.location.reload()
+					: props.setSubmitScore(true)
+			}
+		>
+			{props.submitScore ? "Play Again?" : "Submit Guess"}
+		</button>
 	);
 }
 
