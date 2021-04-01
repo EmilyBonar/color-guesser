@@ -27,16 +27,12 @@ function App() {
 	}, [submitScore]);
 	return (
 		<div
-			className="w-screen h-screen overflow-hidden "
+			className="absolute w-screen h-screen overflow-hidden"
 			style={{ backgroundColor: `rgb(${color.r},${color.g},${color.b})` }}
 		>
 			<HeaderBar buttonOnClick={() => setSidebarOpen(!sidebarOpen)} />
 			<div className="flex h-full">
-				<div
-					className={`flex flex-col items-center w-full h-full ${
-						sidebarOpen ? "hidden sm:flex" : ""
-					}`}
-				>
+				<div className={`flex flex-col items-center w-full h-full z-0`}>
 					<RgbColorPicker
 						color={color}
 						onChange={setColor}
@@ -93,8 +89,8 @@ function ScoreSidebar(props: { open: boolean; scores: string[] }) {
 	return (
 		<div
 			className={`${
-				props.open ? "w-full" : "hidden"
-			} bg-gray-600 bg-opacity-60 max-w-lg min-w-min flex flex-col overflow-auto`}
+				props.open ? "scale-x-100" : "scale-x-0"
+			} bg-white bg-opacity-60 max-w-lg min-w-min flex flex-col overflow-y-scroll absolute transform right-0 transition h-5/6 sm:h-full origin-right z-10`}
 		>
 			{props.scores.length > 0 ? (
 				<h2 className="m-4 text-4xl text-center">
