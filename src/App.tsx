@@ -150,17 +150,16 @@ function BottomBar(props: {
 		>
 			<p className="m-4 text-4xl sm:text-5xl">{props.targetColor.name}</p>
 			{props.submitScore ? (
-				<RefreshButton />
+				<>
+					<RefreshButton />{" "}
+					<Grade
+						inputColor={props.inputColor}
+						targetColor={props.targetColor}
+					/>
+				</>
 			) : (
 				<SubmitButton setSubmitScore={props.setSubmitScore} />
 			)}
-			<p
-				className={`${
-					props.submitScore ? "visible" : "hidden"
-				} text-4xl sm:text-6xl m-2`}
-			>
-				{grade(props.inputColor, props.targetColor)}%
-			</p>
 		</div>
 	);
 }
@@ -183,6 +182,14 @@ function Button(props: { onClick: Function; text: string }) {
 		>
 			{props.text}
 		</button>
+	);
+}
+
+function Grade(props: { inputColor: RgbColor; targetColor: Color }) {
+	return (
+		<p className={`text-4xl sm:text-6xl m-2`}>
+			{grade(props.inputColor, props.targetColor)}%
+		</p>
 	);
 }
 
