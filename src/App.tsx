@@ -149,10 +149,11 @@ function BottomBar(props: {
 			}`}
 		>
 			<p className="m-4 text-4xl sm:text-5xl">{props.targetColor.name}</p>
-			<Button
-				submitScore={props.submitScore}
-				setSubmitScore={props.setSubmitScore}
-			/>
+			{props.submitScore ? (
+				<RefreshButton />
+			) : (
+				<SubmitButton setSubmitScore={props.setSubmitScore} />
+			)}
 			<p
 				className={`${
 					props.submitScore ? "visible" : "hidden"
@@ -164,17 +165,23 @@ function BottomBar(props: {
 	);
 }
 
-function Button(props: { submitScore: Boolean; setSubmitScore: Function }) {
+function SubmitButton(props: { setSubmitScore: Function }) {
+	return (
+		<Button onClick={() => props.setSubmitScore(true)} text="Submit Guess" />
+	);
+}
+
+function RefreshButton() {
+	return <Button onClick={() => window.location.reload()} text="Play Again?" />;
+}
+
+function Button(props: { onClick: Function; text: string }) {
 	return (
 		<button
 			className="p-2 text-2xl text-black bg-gray-300 border border-gray-400 rounded-lg shadow"
-			onClick={() =>
-				props.submitScore
-					? window.location.reload()
-					: props.setSubmitScore(true)
-			}
+			onClick={() => props.onClick()}
 		>
-			{props.submitScore ? "Play Again?" : "Submit Guess"}
+			{props.text}
 		</button>
 	);
 }
