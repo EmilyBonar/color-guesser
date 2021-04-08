@@ -27,7 +27,7 @@ function App() {
 	}, [submitScore]);
 	return (
 		<div
-			className="absolute w-screen h-screen overflow-hidden"
+			className="w-screen h-screen overflow-hidden"
 			style={{ backgroundColor: `rgb(${color.r},${color.g},${color.b})` }}
 		>
 			<HeaderBar buttonOnClick={() => setSidebarOpen(!sidebarOpen)} />
@@ -67,7 +67,10 @@ function grade(inputColor: RgbColor, targetColor: Color) {
 function HeaderBar(props: { buttonOnClick: Function }) {
 	return (
 		<header className="flex justify-between w-full bg-black bg-opacity-80">
-			<h1 className="p-2 text-4xl font-bold text-transparent from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text">
+			<h1
+				className="p-2 text-4xl font-bold text-transparent cursor-pointer from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text"
+				onClick={() => window.location.reload()}
+			>
 				ColorGuesser
 			</h1>
 			<svg
