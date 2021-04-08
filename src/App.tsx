@@ -8,7 +8,7 @@ function App() {
 	const [targetColor] = useState(
 		colors[Math.floor(Math.random() * colors.length)],
 	);
-	const [submitScore, setSubmitScore] = useState(false);
+	const [guessed, setGuessed] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [scores, setScores] = useState<string[]>([]);
 
@@ -18,13 +18,13 @@ function App() {
 			setScores(storedScores.split(","));
 		}
 	}, []);
-	useEffect(() => {
-		if (submitScore) {
-			let newScores = [...scores, grade(color, targetColor)];
-			setScores(newScores);
-			localStorage.setItem("Scores", newScores.join(","));
-		}
-	}, [submitScore]);
+
+	const submitScore = () => {
+		let newScores = [...scores, grade(color, targetColor)];
+		setScores(newScores);
+		localStorage.setItem("Scores", newScores.join(","));
+		setGuessed(true);
+	};
 	return (
 		<div
 			className="w-screen h-screen overflow-hidden"
@@ -44,7 +44,7 @@ function App() {
 						inputColor={color}
 						targetColor={targetColor}
 						submitScore={submitScore}
-						setSubmitScore={setSubmitScore}
+						guessed={guessed}
 					/>
 				</div>
 				<ScoreSidebar open={sidebarOpen} scores={scores} />
@@ -157,8 +157,8 @@ function ScoreList(props: { scores: string[] }) {
 function BottomBar(props: {
 	inputColor: RgbColor;
 	targetColor: Color;
-	submitScore: Boolean;
-	setSubmitScore: Function;
+	guessed: Boolean;
+	submitScore: Function;
 }) {
 	return (
 		<div
@@ -169,7 +169,7 @@ function BottomBar(props: {
 			}`}
 		>
 			<p className="m-4 text-4xl sm:text-5xl">{props.targetColor.name}</p>
-			{props.submitScore ? (
+			{props.guessed ? (
 				<>
 					<RefreshButton />{" "}
 					<Grade
@@ -178,16 +178,14 @@ function BottomBar(props: {
 					/>
 				</>
 			) : (
-				<SubmitButton setSubmitScore={props.setSubmitScore} />
+				<SubmitButton submitScore={props.submitScore} />
 			)}
 		</div>
 	);
 }
 
-function SubmitButton(props: { setSubmitScore: Function }) {
-	return (
-		<Button onClick={() => props.setSubmitScore(true)} text="Submit Guess" />
-	);
+function SubmitButton(props: { submitScore: Function }) {
+	return <Button onClick={() => props.submitScore()} text="Submit Guess" />;
 }
 
 function RefreshButton() {
