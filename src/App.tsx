@@ -67,27 +67,39 @@ function grade(inputColor: RgbColor, targetColor: Color) {
 function HeaderBar(props: { buttonOnClick: Function }) {
 	return (
 		<header className="flex justify-between w-full bg-black bg-opacity-80">
-			<h1
-				className="p-2 text-4xl font-bold text-transparent cursor-pointer from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text"
-				onClick={() => window.location.reload()}
-			>
-				ColorGuesser
-			</h1>
-			<svg
-				onClick={() => props.buttonOnClick()}
-				className="h-10 m-2 cursor-pointer"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				stroke="white"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			>
-				<line x1="3" y1="12" x2="21" y2="12"></line>
-				<line x1="3" y1="6" x2="21" y2="6"></line>
-				<line x1="3" y1="18" x2="21" y2="18"></line>
-			</svg>
+			<Wordmark />
+			<HamburgerIcon buttonOnClick={props.buttonOnClick} />
 		</header>
+	);
+}
+
+function Wordmark() {
+	return (
+		<h1
+			className="p-2 text-4xl font-bold text-transparent cursor-pointer from-red-600 via-green-600 to-blue-600 bg-gradient-to-r bg-clip-text"
+			onClick={() => window.location.reload()}
+		>
+			ColorGuesser
+		</h1>
+	);
+}
+
+function HamburgerIcon(props: { buttonOnClick: Function }) {
+	return (
+		<svg
+			onClick={() => props.buttonOnClick()}
+			className="h-10 m-2 cursor-pointer"
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			stroke="white"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<line x1="3" y1="12" x2="21" y2="12"></line>
+			<line x1="3" y1="6" x2="21" y2="6"></line>
+			<line x1="3" y1="18" x2="21" y2="18"></line>
+		</svg>
 	);
 }
 
@@ -98,26 +110,31 @@ function ScoreSidebar(props: { open: boolean; scores: string[] }) {
 				props.open ? "scale-x-100" : "scale-x-0"
 			} bg-white bg-opacity-60 max-w-lg min-w-min flex flex-col overflow-y-scroll absolute transform right-0 h-5/6 transition origin-right`}
 		>
-			{props.scores.length > 0 ? (
-				<h2 className="m-4 text-4xl text-center">
-					<span className="font-semibold">Average Score: </span>
-					{String(
-						props.scores.reduce(
-							(acc, cur) =>
-								(typeof acc == "string" ? parseFloat(acc) : acc) +
-								parseFloat(cur),
-							0,
-						) / props.scores.length,
-					).slice(0, 5)}
-					%
-				</h2>
-			) : (
-				<></>
-			)}
+			<AverageScore scores={props.scores} />
 			<h2 className="m-4 text-4xl font-semibold text-center">Score History</h2>
 			<ScoreList scores={props.scores} />
 		</div>
 	);
+}
+
+function AverageScore(props: { scores: string[] }) {
+	if (props.scores.length > 0) {
+		return (
+			<h2 className="m-4 text-4xl text-center">
+				<span className="font-semibold">Average Score: </span>
+				{String(
+					props.scores.reduce(
+						(acc, cur) =>
+							(typeof acc == "string" ? parseFloat(acc) : acc) +
+							parseFloat(cur),
+						0,
+					) / props.scores.length,
+				).slice(0, 5)}
+				%
+			</h2>
+		);
+	}
+	return <></>;
 }
 
 function ScoreList(props: { scores: string[] }) {
