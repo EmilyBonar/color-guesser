@@ -38,7 +38,7 @@ function App() {
 					<RgbColorPicker
 						color={color}
 						onChange={setColor}
-						className="w-11/12 h-full max-w-5xl max-h-full m-4 "
+						className="w-11/12 h-full max-w-5xl max-h-full m-4 cursor-pointer"
 					/>
 					<BottomBar
 						inputColor={color}
@@ -72,7 +72,7 @@ function HeaderBar(props: { buttonOnClick: Function }) {
 			</h1>
 			<svg
 				onClick={() => props.buttonOnClick()}
-				className="h-10 m-2"
+				className="h-10 m-2 cursor-pointer"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 24 24"
 				stroke="white"
